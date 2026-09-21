@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Orders & Delivery Dashboard</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+.container {
+    max-width: 1150px;
+    margin: auto;
+    padding: 35px 20px;
+}
+
+
+/* ================= HEADER ================= */
+
+.header-card {
+    background: white;
+    border-radius: 28px;
+    padding: 32px;
+    margin-bottom: 25px;
+    border: 1px solid #e5eaf0;
+    box-shadow: 0 5px 20px rgba(20,30,50,0.05);
+}
+
+.badge {
+    display: inline-block;
+    background: #d8f8e9;
+    color: #16805d;
+    padding: 9px 17px;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+.version {
+    color: #9ba5b2;
+    margin-left: 10px;
+}
+
+h1 {
+    font-size: 38px;
+    margin-top: 15px;
+}
+
+.description {
+    color: #697586;
+    font-size: 18px;
+    margin-top: 8px;
+    line-height: 1.5;
+}
+
+.whatsapp {
+    margin-top: 22px;
+    padding: 17px;
+    border-radius: 18px;
+    background: #eafff5;
+    border: 1px solid #c5f0dc;
+    color: #16785a;
+}
+
+
+/* ================= STAT CARDS ================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    padding: 25px;
+    border-radius: 23px;
+    border: 1px solid;
+    min-height: 130px;
+}
+
+.stat-title {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.stat-number {
+    font-size: 38px;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+
+/* TOTAL */
+
+.total-card {
+    background: #eef3ff;
+    border-color: #d5e0ff;
+}
+
+.total-card .stat-title,
+.total-card .stat-number {
+    color: #315fc4;
+}
+
+
+/* PENDING */
+
+.pending-card {
+    background: #fff8df;
+    border-color: #f5e5a9;
+}
+
+.pending-card .stat-title,
+.pending-card .stat-number {
+    color: #b97908;
+}
+
+
+/* CONFIRMED */
+
+.confirmed-card {
+    background: #eaf4ff;
+    border-color: #cbdff8;
+}
+
+.confirmed-card .stat-title,
+.confirmed-card .stat-number {
+    color: #3972bd;
+}
+
+
+/* DISPATCHED */
+
+.dispatched-card {
+    background: #f6edff;
+    border-color: #e4cff8;
+}
+
+.dispatched-card .stat-title,
+.dispatched-card .stat-number {
+    color: #8b3cc1;
+}
+
+
+/* DELIVERED */
+
+.delivered-card {
+    background: #e9fbf4;
+    border-color: #c6efdf;
+}
+
+.delivered-card .stat-title,
+.delivered-card .stat-number {
+    color: #168768;
+}
+
+
+/* CANCELLED */
+
+.cancelled-card {
+    background: #fff0f3;
+    border-color: #f4cbd5;
+}
+
+.cancelled-card .stat-title,
+.cancelled-card .stat-number {
+    color: #b23b59;
+}
+
+
+/* ================= MAIN AREA ================= */
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 230px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+
+/* ================= VERTICAL MENU ================= */
+
+.menu-card {
+    background: white;
+    padding: 15px;
+    border-radius: 24px;
+    border: 1px solid #e3e8ef;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+
+    position: sticky;
+    top: 20px;
+}
+
+.menu-title {
+    font-size: 14px;
+    color: #9aa4b2;
+    font-weight: bold;
+    padding: 10px 14px;
+    letter-spacing: 1px;
+}
+
+.menu-btn {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: 14px 15px;
+    margin: 3px 0;
+    border-radius: 15px;
+    text-align: left;
+    font-size: 15px;
+    font-weight: bold;
+    color: #566273;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.menu-btn:hover {
+    background: #f2f5f9;
+}
+
+.menu-btn.active {
+    background: #111827;
+    color: white;
+}
+
+
+/* ================= CONTENT ================= */
+
+.content {
+    min-width: 0;
+}
+
+.search-card {
+    background: white;
+    padding: 18px;
+    border-radius: 22px;
+    border: 1px solid #e3e8ef;
+    margin-bottom: 20px;
+}
+
+.search {
+    width: 100%;
+    padding: 16px 18px;
+    border: 1px solid #e0e5eb;
+    border-radius: 16px;
+    background: #f8fafc;
+    font-size: 16px;
+    outline: none;
+}
+
+.search:focus {
+    border-color: #8ca7ff;
+}
+
+
+/* ================= ORDER CARD ================= */
+
+.order-card {
+    background: white;
+    border-radius: 26px;
+    padding: 28px;
+    margin-bottom: 20px;
+    border: 1px solid #e2e7ed;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+
+.order-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.order-id {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.status {
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+
+/* STATUS COLORS */
+
+.status.pending {
+    background: #fff3c4;
+    color: #a86d00;
+}
+
+.status.confirmed {
+    background: #dcecff;
+    color: #3568aa;
+}
+
+.status.dispatched {
+    background: #f0ddff;
+    color: #823bb5;
+}
+
+.status.delivered {
+    background: #d8f8e9;
+    color: #168768;
+}
+
+.status.cancelled {
+    background: #ffe1e7;
+    color: #a63855;
+}
+
+.time {
+    color: #9ba5b2;
+}
+
+
+/* ================= BUTTONS ================= */
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.action {
+    border: none;
+    padding: 12px 20px;
+    border-radius: 17px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.primary {
+    background: #2868e8;
+    color: white;
+}
+
+.purple {
+    background: #9635df;
+    color: white;
+}
+
+.green {
+    background: #0b9b6e;
+    color: white;
+}
+
+.dark {
+    background: #111827;
+    color: white;
+}
+
+.cancel {
+    background: #eef2f6;
+    color: #657184;
+}
+
+
+/* ================= DETAILS ================= */
+
+.details {
+    border-top: 1px solid #edf0f3;
+    margin-top: 25px;
+    padding-top: 25px;
+}
+
+.section-title {
+    color: #9aa5b3;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.customer-name {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.customer-info {
+    color: #697586;
+    line-height: 1.8;
+    margin-top: 5px;
+}
+
+.items {
+    margin-top: 25px;
+}
+
+.item-box {
+    background: #f8fafc;
+    border: 1px solid #edf0f4;
+    border-radius: 17px;
+    padding: 17px;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.total {
+    margin-top: 20px;
+    padding: 22px;
+    border-radius: 20px;
+    background: #edfcf6;
+    border: 1px solid #cdf1e2;
+}
+
+.total-label {
+    color: #8fa09c;
+    font-weight: bold;
+}
+
+.total-price {
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 7px;
+}
+
+.no-orders {
+    text-align: center;
+    padding: 50px;
+    background: white;
+    border-radius: 25px;
+    color: #8c97a5;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:750px) {
+
+    .container {
+        padding: 18px 12px;
+    }
+
+    h1 {
+        font-size: 29px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-card {
+        position: static;
+
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+    }
+
+    .menu-title {
+        grid-column: 1 / -1;
+    }
+
+    .order-card {
+        padding: 22px;
+    }
+
+}
+
+@media(max-width:450px) {
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-card {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+<!-- ================= HEADER ================= -->
+
+<div class="header-card">
+
+    <span class="badge">S-WBOE Engine</span>
+    <span class="version">v2.4 Connected</span>
+
+    <h1>Orders & Delivery Pipeline</h1>
+
+    <p class="description">
+        Manage customer orders, track live shipping status,
+        and send automated WhatsApp alerts.
+    </p>
+
+    <div class="whatsapp">
+        💬 <b>WhatsApp Webhook Active</b><br>
+        Auto-pings triggered on status change
+    </div>
+
+</div>
+
+
+
+<!-- ================= STATISTICS ================= -->
+
+<div class="stats">
+
+    <div class="stat-card total-card">
+        <div class="stat-title">TOTAL ORDERS</div>
+        <div class="stat-number" id="totalCount">5</div>
+    </div>
+
+    <div class="stat-card pending-card">
+        <div class="stat-title">PENDING</div>
+        <div class="stat-number" id="pendingCount">1</div>
+    </div>
+
+    <div class="stat-card confirmed-card">
+        <div class="stat-title">CONFIRMED</div>
+        <div class="stat-number" id="confirmedCount">1</div>
+    </div>
+
+    <div class="stat-card dispatched-card">
+        <div class="stat-title">DISPATCHED</div>
+        <div class="stat-number" id="dispatchedCount">1</div>
+    </div>
+
+    <div class="stat-card delivered-card">
+        <div class="stat-title">DELIVERED</div>
+        <div class="stat-number" id="deliveredCount">1</div>
+    </div>
+
+    <div class="stat-card cancelled-card">
+        <div class="stat-title">CANCELLED</div>
+        <div class="stat-number" id="cancelledCount">1</div>
+    </div>
+
+</div>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="dashboard">
+
+
+<!-- VERTICAL MENU -->
+
+<div class="menu-card">
+
+    <div class="menu-title">
+        ORDER STATUS
+    </div>
+
+    <button
+        class="menu-btn active"
+        onclick="filterOrders('all', this)">
+        📦 All Orders
+    </button>
+
+    <button
+        class="menu-btn"
+        onclick="filterOrders('Pending', this)">
+        🕐 Pending
+    </button>
+
+    <button
+        class="menu-btn"
+        onclick="filterOrders('Confirmed', this)">
+        📦 Confirmed
+    </button>
+
+    <button
+        class="menu-btn"
+        onclick="filterOrders('Dispatched', this)">
+        🚚 Dispatched
+    </button>
+
+    <button
+        class="menu-btn"
+        onclick="filterOrders('Delivered', this)">
+        ✓ Delivered
+    </button>
+
+    <button
+        class="menu-btn"
+        onclick="filterOrders('Cancelled', this)">
+        ✕ Cancelled
+    </button>
+
+</div>
+
+
+
+<!-- RIGHT CONTENT -->
+
+<div class="content">
+
+
+<div class="search-card">
+
+    <input
+        id="search"
+        class="search"
+        type="text"
+        placeholder="🔍  Search Order ID, Name, Phone..."
+        onkeyup="searchOrders()">
+
+</div>
+
+
+<div id="orders"></div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+
+/* ================= ORDER DATA ================= */
+
+let orders = [
+
+{
+    id: "ORD-1024",
+    status: "Pending",
+    time: "10 mins ago",
+    name: "Ramesh Kumar",
+    phone: "+91 98765 43210",
+    address: "12, Cross Street, Peelamedu, Coimbatore - 641004",
+    item: "1x Nike Air Zoom Running Shoes",
+    price: 1999,
+    payment: "COD"
+},
+
+{
+    id: "ORD-1023",
+    status: "Confirmed",
+    time: "1 hour ago",
+    name: "Ananya Sharma",
+    phone: "+91 98123 45678",
+    address: "45, Gandhi Road, Adyar, Chennai - 600020",
+    item: "1x Wireless Bluetooth Earbuds",
+    price: 1499,
+    payment: "UPI (Paid)"
+},
+
+{
+    id: "ORD-1022",
+    status: "Dispatched",
+    time: "3 hours ago",
+    name: "Suresh Raina",
+    phone: "+91 97890 12345",
+    address: "88, Anna Nagar, Madurai - 625020",
+    item: "1x Smart Watch Series 5 (Black)",
+    price: 4999,
+    payment: "UPI (Paid)"
+},
+
+{
+    id: "ORD-1021",
+    status: "Delivered",
+    time: "Yesterday",
+    name: "Priya Patel",
+    phone: "+91 96543 21098",
+    address: "15, RS Puram, Coimbatore - 641002",
+    item: "1x Vintage Denim Jacket",
+    price: 899,
+    payment: "UPI (Paid)"
+},
+
+{
+    id: "ORD-1020",
+    status: "Cancelled",
+    time: "2 days ago",
+    name: "Karthik Raja",
+    phone: "+91 94433 11223",
+    address: "7, MG Road, Salem - 636001",
+    item: "1x Leather Wallet & Belt Combo",
+    price: 1250,
+    payment: "UPI (Refunded)"
+}
+
+];
+
+
+let currentFilter = "all";
+
+
+/* ================= DISPLAY ORDERS ================= */
+
+function renderOrders(data = orders) {
+
+    const container = document.getElementById("orders");
+
+    if(data.length === 0) {
+
+        container.innerHTML =
+        `<div class="no-orders">
+            No orders found.
+        </div>`;
+
+        return;
+    }
+
+
+    container.innerHTML = data.map(order => {
+
+        let statusClass =
+            order.status.toLowerCase();
+
+
+        let action = "";
+
+
+        if(order.status === "Pending") {
+
+            action = `
+
+            <button
+                class="action primary"
+                onclick="changeStatus('${order.id}','Confirmed')">
+
+                Confirm Order →
+
+            </button>
+
+            <button
+                class="action cancel"
+                onclick="changeStatus('${order.id}','Cancelled')">
+
+                Cancel
+
+            </button>
+
+            `;
+
+        }
+
+
+        else if(order.status === "Confirmed") {
+
+            action = `
+
+            <button
+                class="action purple"
+                onclick="changeStatus('${order.id}','Dispatched')">
+
+                Dispatch Order 🚚
+
+            </button>
+
+            <button
+                class="action cancel"
+                onclick="changeStatus('${order.id}','Cancelled')">
+
+                Cancel
+
+            </button>
+
+            `;
+
+        }
+
+
+        else if(order.status === "Dispatched") {
+
+            action = `
+
+            <button
+                class="action green"
+                onclick="changeStatus('${order.id}','Delivered')">
+
+                Mark Delivered ✓
+
+            </button>
+
+            `;
+
+        }
+
+
+        return `
+
+        <div class="order-card">
+
+            <div class="order-top">
+
+                <span class="order-id">
+                    ${order.id}
+                </span>
+
+                <span class="status ${statusClass}">
+                    ${order.status}
+                </span>
+
+                <span class="time">
+                    📅 ${order.time}
+                </span>
+
+            </div>
+
+
+            <div class="actions">
+
+                ${action}
+
+                <button
+                    class="action dark"
+                    onclick="toggleDetails('${order.id}')">
+
+                    👁 View Details
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="details"
+                id="details-${order.id}">
+
+                <div class="section-title">
+                    CUSTOMER DETAILS
+                </div>
+
+                <div class="customer-name">
+                    ${order.name}
+                </div>
+
+                <div class="customer-info">
+
+                    ☎ ${order.phone}<br>
+
+                    📍 ${order.address}
+
+                </div>
+
+
+                <div class="items">
+
+                    <div class="section-title">
+                        ITEMS ORDERED
+                    </div>
+
+                    <div class="item-box">
+
+                        <span>
+                            ${order.item}
+                        </span>
+
+                        <b>
+                            ₹${order.price.toFixed(2)}
+                        </b>
+
+                    </div>
+
+                </div>
+
+
+                <div class="total">
+
+                    <div class="total-label">
+                        TOTAL BILL
+                    </div>
+
+                    <div class="total-price">
+                        ₹${order.price.toFixed(2)}
+                    </div>
+
+                    <div>
+                        ${order.payment}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    }).join("");
+
+}
+
+
+
+/* ================= FILTER ================= */
+
+function filterOrders(status, button) {
+
+    currentFilter = status;
+
+
+    document
+        .querySelectorAll(".menu-btn")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+
+    button.classList.add("active");
+
+
+    let result;
+
+
+    if(status === "all") {
+
+        result = orders;
+
+    }
+
+    else {
+
+        result =
+            orders.filter(
+                order => order.status === status
+            );
+
+    }
+
+
+    renderOrders(result);
+
+}
+
+
+
+/* ================= SEARCH ================= */
+
+function searchOrders() {
+
+    let value =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    let result =
+        orders.filter(order => {
+
+            let filterMatch =
+                currentFilter === "all" ||
+                order.status === currentFilter;
+
+
+            let searchMatch =
+                order.id.toLowerCase().includes(value) ||
+                order.name.toLowerCase().includes(value) ||
+                order.phone.toLowerCase().includes(value);
+
+
+            return filterMatch && searchMatch;
+
+        });
+
+
+    renderOrders(result);
+
+}
+
+
+
+/* ================= DETAILS ================= */
+
+function toggleDetails(id) {
+
+    let element =
+        document.getElementById(
+            "details-" + id
+        );
+
+
+    if(element.style.display === "none") {
+
+        element.style.display = "block";
+
+    }
+
+    else {
+
+        element.style.display = "none";
+
+    }
+
+}
+
+
+
+/* ================= CHANGE STATUS ================= */
+
+function changeStatus(id, newStatus) {
+
+    let order =
+        orders.find(
+            order => order.id === id
+        );
+
+
+    if(order) {
+
+        order.status = newStatus;
+
+        updateCounts();
+
+        searchOrders();
+
+    }
+
+}
+
+
+
+/* ================= UPDATE COUNTS ================= */
+
+function updateCounts() {
+
+    document.getElementById("totalCount")
+        .innerText = orders.length;
+
+
+    document.getElementById("pendingCount")
+        .innerText =
+        orders.filter(
+            o => o.status === "Pending"
+        ).length;
+
+
+    document.getElementById("confirmedCount")
+        .innerText =
+        orders.filter(
+            o => o.status === "Confirmed"
+        ).length;
+
+
+    document.getElementById("dispatchedCount")
+        .innerText =
+        orders.filter(
+            o => o.status === "Dispatched"
+        ).length;
+
+
+    document.getElementById("deliveredCount")
+        .innerText =
+        orders.filter(
+            o => o.status === "Delivered"
+        ).length;
+
+
+    document.getElementById("cancelledCount")
+        .innerText =
+        orders.filter(
+            o => o.status === "Cancelled"
+        ).length;
+
+}
+
+
+/* ================= START ================= */
+
+renderOrders();
+
+updateCounts();
+
+</script>
+
+</body>
+</html>
